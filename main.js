@@ -59,31 +59,41 @@ const appContainer = document.querySelector("#app");
 let selectedCards = [];
 
 const verifyEquals = () => {
-  if (
-    selectedCards.length === 2 &&
-    selectedCards[0].textContent === selectedCards[1].textContent
-  ) {
-    selectedCards[0].style.backgroundColor = "blue";
-    selectedCards[1].style.backgroundColor = "blue";
-  } else {
+  if (selectedCards.length === 2) {
+    const [first, second] = selectedCards;
+    const firstContent = first.querySelector(".front-card").innerHTML;
+    const secondContent = second.querySelector(".front-card").innerHTML;
+
+    if (secondContent === firstContent) {
+      first.classList.replace("flipped", "matched");
+      second.classList.replace("flipped", "matched");
+    }
   }
-  selectedCards = [];
 };
 
-const selectCard = (card) => {
-  if (!selectedCards.length) {
-    selectedCards.push(card);
+const addToStack = (card) => {
+  if (selectedCards.length < 2) selectedCards.push(card);
+};
+
+const flipCard = (card) => {
+  if (card.classList.contains("flipped") || card.classList.contains("matched"))
     return;
-  } else {
-    selectedCards.push(card);
+
+  if (selectedCards.length === 2) {
+    selectedCards.forEach((item) => item.classList.remove("flipped"));
+    selectedCards = [];
   }
+
+  card.classList.add("flipped");
+
+  addToStack(card);
   verifyEquals();
 };
 
 const createCard = (content) => {
   const card = document.createElement("div");
   card.classList.add("card");
-  card.addEventListener("click", (item) => selectCard(item.target));
+  card.addEventListener("click", (item) => flipCard(card));
 
   const inner = document.createElement("div");
   inner.classList.add("inner-card");
@@ -98,8 +108,6 @@ const createCard = (content) => {
   front.classList.add("front-card");
   front.appendChild(document.createTextNode(content));
   inner.appendChild(front);
-
-  // card.appendChild(document.createTextNode(content));
 
   return card;
 };
