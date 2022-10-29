@@ -91,7 +91,7 @@ const flipCard = (card) => {
 };
 
 const createCard = (content) => {
-  const card = document.createElement("div");
+  const card = document.createElement("button");
   card.classList.add("card");
   card.addEventListener("click", (item) => flipCard(card));
 
