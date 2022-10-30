@@ -67,6 +67,8 @@ const verifyEquals = () => {
     if (secondContent === firstContent) {
       first.classList.replace("flipped", "matched");
       second.classList.replace("flipped", "matched");
+      first.replaceWith(first.cloneNode(true));
+      second.replaceWith(second.cloneNode(true));
     }
   }
 };
