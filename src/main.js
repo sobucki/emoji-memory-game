@@ -1,4 +1,5 @@
 import "./style.css";
+import "./web-components/card-item";
 
 const options = [
   "🧳",
